@@ -3,7 +3,7 @@ import {
   PageNumberPaginationOptions,
   PrismaModel,
   PrismaQuery,
-  PaginationResult
+  PaginationResult,
 } from "./types";
 import { paginateWithPages } from "./page-number";
 
@@ -15,10 +15,9 @@ type Paginator = <T, A>(
   >,
 ) => {
   withPages: (
-      options?: PageNumberPaginationOptions
-    ) => Promise<
-      PaginationResult<Prisma.Result<T, A, "findMany">>
-    >
+    options?: PageNumberPaginationOptions,
+  ) => Promise<PaginationResult<A>>;
+  // ) => Promise<PaginationResult<Prisma.Result<T, A, "findMany">>>;
 };
 
 type PaginatorOptions = {
@@ -31,10 +30,7 @@ export const createPaginator = <O extends PaginatorOptions>(
   function paginate(this, args) {
     return {
       withPages: async (options = {}) => {
-        const {
-          current = 1,
-          pageSize,
-        } = {
+        const { current = 1, pageSize } = {
           ...globalOptions,
           ...(options as PageNumberPaginationOptions),
         } satisfies Omit<PageNumberPaginationOptions, "pageSize">;
@@ -50,7 +46,10 @@ export const createPaginator = <O extends PaginatorOptions>(
         if (pageSize !== null && typeof pageSize !== "number") {
           throw new Error("Missing pageSize value");
         }
-        if (pageSize !== null && (pageSize < 1 || pageSize > Number.MAX_SAFE_INTEGER)) {
+        if (
+          pageSize !== null &&
+          (pageSize < 1 || pageSize > Number.MAX_SAFE_INTEGER)
+        ) {
           throw new Error("Invalid pageSize value");
         }
 
@@ -59,7 +58,7 @@ export const createPaginator = <O extends PaginatorOptions>(
         return paginateWithPages(this as PrismaModel, query, {
           pageSize,
           current,
-        }) as any;
+        });
       },
     };
   };

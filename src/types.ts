@@ -24,11 +24,11 @@ export type PageNumberCounters = {
   totalCount: number;
 };
 
-export type PaginationResult<T> ={
-  list: Array<T>;
+export type PaginationResult<T> = {
+  list: T;
   total?: number;
   pagination?: PageNumberPaginationOptions;
-}
+};
 
 export type GetCursorFunction<R> = (result: R) => string;
 
