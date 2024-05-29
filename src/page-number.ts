@@ -12,21 +12,20 @@ export const paginateWithPages = async <T, A>(
   query: PrismaQuery,
   { current, pageSize }: Required<PageNumberPaginationOptions>,
 ): Promise<PaginationResult<Prisma.Result<T, A, "findMany">>> => {
-  const [list, total]: [Prisma.Result<T, A, "findMany">, number] =
-    await Promise.all([
-      model.findMany({
-        ...query,
-        ...{
-          skip: (current - 1) * (pageSize ?? 0),
-          take: pageSize === null ? undefined : pageSize,
-        },
-      }),
-      model.count({
-        ...query,
-        ...resetSelection,
-        ...resetOrdering,
-      }),
-    ]);
+  const [list, total] = await Promise.all([
+    model.findMany({
+      ...query,
+      ...{
+        skip: (current - 1) * (pageSize ?? 0),
+        take: pageSize === null ? undefined : pageSize,
+      },
+    }),
+    model.count({
+      ...query,
+      ...resetSelection,
+      ...resetOrdering,
+    }),
+  ]);
 
   // pageCount = pageSize === null ? 1 : Math.ceil(total / pageSize);
 
