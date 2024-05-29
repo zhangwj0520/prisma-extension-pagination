@@ -6,7 +6,10 @@ export type PrismaQuery = {
   where: Record<string, unknown>;
 };
 
-export type PageNumberPaginationOptions = {
+export type GlobalOptions = {
+  pageSize?: number;
+};
+export type PaginationOptions = {
   pageSize?: number | null;
   current?: number;
 };
@@ -27,7 +30,7 @@ export type PageNumberCounters = {
 export type PaginationResult<T> = {
   list: T;
   total?: number;
-  pagination?: PageNumberPaginationOptions;
+  pagination?: PaginationOptions;
 };
 
 export type GetCursorFunction<R> = (result: R) => string;

@@ -1,7 +1,7 @@
 import { resetOrdering, resetSelection } from "./helpers";
 import { Prisma } from "@prisma/client/extension";
 import {
-  PageNumberPaginationOptions,
+  PaginationOptions,
   PrismaModel,
   PrismaQuery,
   PaginationResult,
@@ -10,7 +10,7 @@ import {
 export const paginateWithPages = async <T, A>(
   model: PrismaModel,
   query: PrismaQuery,
-  { current, pageSize }: Required<PageNumberPaginationOptions>,
+  { current, pageSize }: Required<PaginationOptions>,
 ): Promise<PaginationResult<Prisma.Result<T, A, "findMany">>> => {
   const [list, total] = await Promise.all([
     model.findMany({

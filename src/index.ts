@@ -1,6 +1,6 @@
 import { extension, paginate, createPaginator } from "./extension";
 export {
-  PageNumberPaginationOptions,
+  PaginationOptions,
   PaginationResult,
   CursorPaginationOptions,
   CursorPaginationMeta,
