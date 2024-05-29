@@ -25,7 +25,7 @@ export type PageNumberCounters = {
 };
 
 export type PaginationResult<T> = {
-  list: T;
+  list: Array<T>;
   total?: number;
   pagination?: PageNumberPaginationOptions;
 };
