@@ -17,8 +17,8 @@ type Paginator = <T, A>(
   withPages: <A>(
     options?: PageNumberPaginationOptions,
     // ) => Promise<PaginationResult<A>>;
-    // ) => Promise<PaginationResult<Prisma.Result<T, A, "findMany">>>;
-  ) => Promise<PaginationResult<A>>;
+  ) => Promise<PaginationResult<Prisma.Result<T, A, "findMany">>>;
+  // ) => Promise<PaginationResult<A>>;
 };
 
 type PaginatorOptions = {
@@ -62,10 +62,14 @@ export const createPaginator = <O extends PaginatorOptions>(
 
         const query = (args ?? {}) as PrismaQuery;
 
-        return paginateWithPages<A>(this as PrismaModel, query, {
-          pageSize,
-          current,
-        });
+        return paginateWithPages<Prisma.Result<T, A, "findMany">>(
+          this as PrismaModel,
+          query,
+          {
+            pageSize,
+            current,
+          },
+        );
       },
     };
   };
