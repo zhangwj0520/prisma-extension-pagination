@@ -1,6 +1,6 @@
 {
   "name": "@zhangwj0520/prisma-extension-pagination",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Prisma Client extension for pagination",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
