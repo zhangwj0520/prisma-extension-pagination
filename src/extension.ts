@@ -62,14 +62,10 @@ export const createPaginator = <O extends PaginatorOptions>(
 
         const query = (args ?? {}) as PrismaQuery;
 
-        return paginateWithPages<Prisma.Result<T, A, "findMany">>(
-          this as PrismaModel,
-          query,
-          {
-            pageSize,
-            current,
-          },
-        );
+        return paginateWithPages<T, A>(this as PrismaModel, query, {
+          pageSize,
+          current,
+        });
       },
     };
   };
