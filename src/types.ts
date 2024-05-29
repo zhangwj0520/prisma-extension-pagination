@@ -7,15 +7,14 @@ export type PrismaQuery = {
 };
 
 export type PageNumberPaginationOptions = {
-  limit: number | null;
-  page?: number;
-  includePageCount?: boolean;
+  pageSize?: number | null;
+  current?: number;
 };
 
 export type PageNumberPagination = {
   isFirstPage: boolean;
   isLastPage: boolean;
-  currentPage: number;
+  current: number;
   previousPage: number | null;
   nextPage: number | null;
 };
@@ -25,18 +24,18 @@ export type PageNumberCounters = {
   totalCount: number;
 };
 
-export type PageNumberPaginationMeta<
-  TWithCounters extends boolean | undefined = false,
-> = TWithCounters extends true
-  ? PageNumberPagination & PageNumberCounters
-  : PageNumberPagination;
+export type PaginationResult<T> ={
+  list: Array<T>;
+  total?: number;
+  pagination?: PageNumberPaginationOptions;
+}
 
 export type GetCursorFunction<R> = (result: R) => string;
 
 export type ParseCursorFunction<C> = (cursor: string) => C;
 
 export type CursorPaginationOptions<Result, Condition> = {
-  limit: number | null;
+  pageSize: number | null;
   after?: string;
   before?: string;
   getCursor?: GetCursorFunction<Result>;

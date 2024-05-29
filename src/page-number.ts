@@ -1,29 +1,27 @@
 import { resetOrdering, resetSelection } from "./helpers";
 import {
-  PageNumberPaginationMeta,
   PageNumberPaginationOptions,
   PrismaModel,
   PrismaQuery,
+  PaginationResult
 } from "./types";
 
 export const paginateWithPages = async (
   model: PrismaModel,
   query: PrismaQuery,
-  { page, limit, includePageCount }: Required<PageNumberPaginationOptions>,
-): Promise<[unknown, PageNumberPaginationMeta<typeof includePageCount>]> => {
-  const previousPage = page > 1 ? page - 1 : null;
+  { current, pageSize }: Required<PageNumberPaginationOptions>,
+): Promise<PaginationResult<unknown>> => {
+// ): Promise<[unknown, PageNumberPaginationMeta]> => {
 
-  let results;
-  let nextPage;
-  let pageCount = null;
-  let totalCount = null;
-  if (includePageCount) {
-    [results, totalCount] = await Promise.all([
+  let list;
+  let total = null;
+
+    [list, total] = await Promise.all([
       model.findMany({
         ...query,
         ...{
-          skip: (page - 1) * (limit ?? 0),
-          take: limit === null ? undefined : limit,
+          skip: (current - 1) * (pageSize ?? 0),
+          take: pageSize === null ? undefined : pageSize,
         },
       }),
       model.count({
@@ -33,39 +31,15 @@ export const paginateWithPages = async (
       }),
     ]);
 
-    pageCount = limit === null ? 1 : Math.ceil(totalCount / limit);
-    nextPage = page < pageCount ? page + 1 : null;
-  } else {
-    results = await model.findMany({
-      ...query,
-      ...{
-        skip: (page - 1) * (limit ?? 0),
-        take: limit === null ? undefined : limit + 1,
-      },
-    });
+    // pageCount = pageSize === null ? 1 : Math.ceil(total / pageSize);
+  
 
-    nextPage = limit === null ? null : results.length > limit ? page + 1 : null;
-    if (nextPage) {
-      results.pop();
+    return {
+      list: list,
+      total: total,
+      pagination: {
+        current,
+        pageSize,
+      },
     }
-  }
-
-  return [
-    results,
-    {
-      ...{
-        isFirstPage: previousPage === null,
-        isLastPage: nextPage === null,
-        currentPage: page,
-        previousPage,
-        nextPage,
-      },
-      ...(includePageCount === true
-        ? {
-            pageCount,
-            totalCount,
-          }
-        : {}),
-    },
-  ];
 };

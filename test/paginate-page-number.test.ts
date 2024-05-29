@@ -31,7 +31,7 @@ describe("paginate with pages", () => {
     expect(results).toStrictEqual(expectedResults);
 
     const expectedMeta = {
-      currentPage: 5,
+      current: 5,
       isFirstPage: false,
       isLastPage: true,
       previousPage: 4,
@@ -68,7 +68,7 @@ describe("paginate with pages", () => {
     expect(results).toStrictEqual(expectedResults);
 
     const expectedMeta = {
-      currentPage: 5,
+      current: 5,
       isFirstPage: false,
       isLastPage: true,
       previousPage: 4,
@@ -90,7 +90,7 @@ describe("paginate with pages", () => {
 
     expect(results).toStrictEqual(expectedResults);
     expect(meta).toStrictEqual({
-      currentPage: 1,
+      current: 1,
       isFirstPage: true,
       isLastPage: false,
       previousPage: null,
@@ -114,7 +114,7 @@ describe("paginate with pages", () => {
 
     expect(results).toStrictEqual(expectedResults);
     expect(meta).toStrictEqual({
-      currentPage: 2,
+      current: 2,
       isFirstPage: false,
       isLastPage: false,
       previousPage: 1,
@@ -147,7 +147,7 @@ describe("paginate with pages", () => {
     expect(resultsWithPageCount).toStrictEqual(expectedResults);
 
     const expectedMeta = {
-      currentPage: 5,
+      current: 5,
       isFirstPage: false,
       isLastPage: true,
       previousPage: 4,
@@ -177,7 +177,7 @@ describe("paginate with pages", () => {
 
     expect(results.length).toBe(2);
     expect(meta).toStrictEqual({
-      currentPage: 2,
+      current: 2,
       isFirstPage: false,
       isLastPage: false,
       previousPage: 1,
@@ -217,7 +217,7 @@ describe("paginate with pages", () => {
 
     expect(results).toStrictEqual(expectedResults);
     expect(meta).toStrictEqual({
-      currentPage: 1,
+      current: 1,
       isFirstPage: true,
       isLastPage: true,
       previousPage: null,
@@ -267,7 +267,7 @@ describe("paginate with pages", () => {
 
     expect(results).toStrictEqual(expectedResults);
     expect(meta).toStrictEqual({
-      currentPage: 1,
+      current: 1,
       isFirstPage: true,
       isLastPage: false,
       previousPage: null,
